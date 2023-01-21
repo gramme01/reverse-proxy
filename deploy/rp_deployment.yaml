@@ -1,19 +1,22 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: reverseproxy
   labels:
     service: reverseproxy
-  name: reverseproxy
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      service: reverseproxy
   template:
     metadata:
       labels:
         service: reverseproxy
     spec:
       containers:
-        - image: gramme01/simple-reverse-proxy
-          name: reverseproxy
+        - name: reverseproxy
+          image: gramme01/simple-reverse-proxy
           imagePullPolicy: Always
           # resources:
           #   requests:
@@ -24,4 +27,4 @@ spec:
           #     cpu: "500m"
           ports:
             - containerPort: 8080
-      restartPolicy: Always
+      # restartPolicy: Always
